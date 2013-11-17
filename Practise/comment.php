@@ -155,6 +155,7 @@
 				
 				<div class="modal-body">	
 					<?php
+					$prog="";
 					$id = $_POST['values'];	
 					//$id = "value";	
 

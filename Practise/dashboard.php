@@ -187,15 +187,33 @@ ini_set('error_reporting', E_ALL);
 
 <?php 
 
-
-if (!isset($_POST["department"]) ||
+/**
+if(!isset($_POST["department"]) ||
 ($_POST["agency"])||($_POST["year"])||
 ($_POST["region"])){ 
-return;}	
+return;}	*/
+$dept="";
+$agency="";
+$year="";
+$region="";
+$id="";
+try {
+if (isset($_POST["department"]))	{
 $dept = $_POST["department"];
+}
+if(isset($_POST["agency"])) {
 $agency = $_POST["agency"];
-$year = $_POST["year"];
+}
+if(isset($_POST["year"])){
+ $year = $_POST["year"];
+}
+if(isset($_POST["region"])) {
 $region = $_POST["region"];	
+}
+}catch
+	(Exception $e){
+	}
+
 $url = 'http://api.kabantayngbayan.ph/saro?app_id=52716e645e13dbe6706ac1ee&agency_code='.$agency.'&department_code='.$dept.'&year='.$year.'&region='.$region.'';$ch = curl_init($url);
 curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
 $c = curl_exec($ch);
