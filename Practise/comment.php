@@ -154,9 +154,39 @@
 				
 				
 				<div class="modal-body">	
+					<?php
+					$id = $_POST['values'];	
+					//$id = "value";	
+
+					$url = 'http://api.kabantayngbayan.ph/saro?app_id=52716e645e13dbe6706ac1ee&id='.$id.'';
+					$ch = curl_init($url);
+					curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
+					$c = curl_exec($ch);
+
+
+					$odata = json_decode($c);
+
+
+					foreach($odata as $key => $val){
+					//echo $val;
+					if ($key == "data") {
+					foreach($val as $key2 => $val2){
+					$year = $val2->year;
+					$prog = $val2->program_description;
+					$amount = $val2->amount;
+					echo "<br>".$year;
+					echo "<br>".$prog;
+					echo "<br>".$amount;
+
+								}
+							}
+						}
 					
+			?>
 					
-				<form class="form-horizontal" role="form">
+					<?php echo $prog; ?>
+					
+			<form class="form-horizontal" role="form">
 					<div class="form-group">
 						<label class="col-sm-2 control-label">Title
 						

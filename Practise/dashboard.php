@@ -146,145 +146,82 @@
 	<div class="page-header col-md-8">
         <h1>Data</h1>
       </div>
-	  	
-		
-		
-	
-	
-        
-		<form action="dashboard.php" method="post" role="form" class="form-inline">
-			<div class="form-group">
-			<label for="exampleInputDepartment">Department</label>
-				<input type="text" class="form-control" id="exampleInputDepartment" placeholder="Department" name="department">
-			</div>
-	
-			<div class="form-group">
-			</div>
-	
-			<div class="form-group">
-				<label for="exampleInputAgency">Agency</label>
-				<input type="text" class="form-control" id="exampleInputAgency" placeholder="Agency" name="agency">
-			</div>	
-			
-			<div class="form-group">
-			</div>
-			
-			<div class="form-group">
-				<label for="exampleInputYear">Year</label>
-				<input type="text" class="form-control" id="exampleInputYear" placeholder="Year" name="year">
-			</div>
-  
-			<div class="form-group">
-			</div>
-  
-			<div class="form-group">
-				<label for="exampleInputRegion">Region</label>
-				<input type="text" class="form-control" id="exampleInputRegion" placeholder="Region" name="region">
-				
-			</div>	
-		
-			<div class="form-group">
-				
-			</div>		
-			
-		</form>	
-		<br>
-		<div class="form-group">
-		<button type="submit" class="btn btn-primary">Submit</button>
-		</div>	
+	  
+	  <table class='table  table-bordered'>
+	  	<form action="dashboard.php" method="post">
+		<tr class='active'><td>Department:</td> <td><input type="text" name="department"></td></tr><br>
+		<tr class='active'><td>Agency:</td> <td><input type="text" name="agency"></td></tr><br>
+		<tr class='active'><td>Year:</td> <td><input type="text" name="year"></td></tr><br>
+		<tr class='active'><td>Region:</td><td> <input type="text" name="region"></td></tr><br>
+		<tr><td><input  type="submit"></td>
+</table>
+</form>
 
-		
-		<div class="row marketing col-md-1"></div>
-	
-		<div class="row">
-		
-	<?php 
-
-	function display(){
-	
-		$dept = $_POST['department'];
-		$agency = $_POST['agency'];
-		$year = $_POST['year'];
-		$region = $_POST['region'];
-		
-		$url= 'http://api.kabantayngbayan.ph/saro?app_id=52716e645e13dbe6706ac1ee&agency_code='.$agency.'&department_code='.$dept.'&year='.$year.'&region='.$region.'';$ch = curl_init($url);
-		
-		
-		
-		
-		curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
-		$c = curl_exec($ch);
-	
-//$obj2 = json_decode($c);
-//var d
-//echo $c;
-// ----------------------------------------------------------
-// ----------------------------------------------------------
-//$odata = var_dump(json_decode($c)); //this is the original file
-		$odata = json_decode($c);
+<?php 
 
 
-// The code below display more clear array:
-//print_r($odata);
 
-		// This code below display values
-		foreach($odata as $key => $val){
-		//echo $val;
-		if ($key == "data") {
-		foreach($val as $key2 => $val2){
+$dept = $_POST["department"];
+$agency = $_POST["agency"];
+$year = $_POST["year"];
+$region = $_POST["region"];	
+$url = 'http://api.kabantayngbayan.ph/saro?app_id=52716e645e13dbe6706ac1ee&agency_code='.$agency.'&department_code='.$dept.'&year='.$year.'&region='.$region.'';$ch = curl_init($url);
+curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
+$c = curl_exec($ch);
 
 
-		$year = $val2->year;
+$odata = json_decode($c);
+
+
+foreach($odata as $key => $val){
+//echo $val;
+if ($key == "data") {
+foreach($val as $key2 => $val2){
+$year = $val2->year;
 		$dc = $val2->department_code;
 		$ac = $val2->agency_code;
 		$r = $val2->region;
 		$pd = $val2->program_description;
 		$p = $val2->purpose;
 		$a = $val2->amount;
+	echo "<table class='table table-hover table-bordered'>";
 		
-		
-		$db="sample";
-		$link = mysql_connect('localhost', 'root', '');
-		if (! $link) die(mysql_error());
-		mysql_select_db($db , $link) or die("Couldn't open $db: ".mysql_error());
-		$query = "SELECT * FROM links"; //Write a query
-		$data = mysql_query($query);  //Execute the query
-		
-		
+		//echo "\t<tr class='success'><td><span class='label label-success'>ID</span></td><td><a href='comment.php'>$data</a></td></tr>\n";
+		echo "\t<tr class='active'><td><b>Year</b></td><td>".$year."</td></tr>\n";
+		echo "\t<tr class='success'><td><b>Department</b></td><td>".$dc."</td></tr>\n";
+		echo "\t<tr class='active'><td><b>Agency</b></td><td>".$ac."</td></tr>\n";
+		echo "\t<tr class='success'><td><b>Region</b></td><td>".$r."</td></tr>\n";
+		echo "\t<tr class='active'><td><b>Program Description</b></td><td>".$pd."</td></tr>\n";
+		echo "\t<tr class='success'><td><b>Purpose</b></td><td>".$p."</td></tr>\n";
+		echo "\t<tr class='active'><td><b>Amount</b></td><td>".$a."</td></tr>";	
 	
-		echo "<table class='table table-hover table-bordered' id='$data'>";
-		
-		echo "\t<tr class='success'><td><span class='label label-success'>ID</span></td><td><a href='comment.php'>$data</a></td></tr>\n";
-		echo "\t<tr class='active'><td><b>Year</b></td><td>$year</td></tr>\n";
-		echo "\t<tr class='success'><td><b>Department</b></td><td>$dc</td></tr>\n";
-		echo "\t<tr class='active'><td><b>Agency</b></td><td>$ac</td></tr>\n";
-		echo "\t<tr class='success'><td><b>Region</b></td><td>$r</td></tr>\n";
-		echo "\t<tr class='active'><td><b>Program Description</b></td><td>$pd</td></tr>\n";
-		echo "\t<tr class='success'><td><b>Purpose</b></td><td>$p</td></tr>\n";
-		echo "\t<tr class='active'><td><b>Amount</b></td><td>$a</td></tr>";	
-	
-		echo "</table>\n";
-	
-						}
-					}
+		echo "</table>";
 
-				}
-			}
-				display();
-		
-		?>
-		
-		<?php
-		
-		?>
-		
-				</form>
-				</div>
-			</div>
-		</div>
-	</div>
+		echo "<form method='POST' action='to.php'>";
+		echo "<input type='hidden' name='values' "." value='".$id."' />";
+		echo "<input type='submit' value='GIVE FEEDBACK' />";
+		echo "</form>\n";
+
+
+
+
+
+}
+}
+
+}
+
+
+
+
+
+
+
+
+?>
+
      
-		
+	</div>	
 	 <div class="container marketing">
     <hr class="featurette-divider">
 	
