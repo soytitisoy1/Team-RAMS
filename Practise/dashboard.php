@@ -40,11 +40,11 @@
 			<li class="dropdown, active">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-stats"></span> Dashboards <b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li><a href="#">Graphs</a></li>
+                <li><a href="#">Data</a></li>
                                
                 <li class="divider"></li>
                 <li class="dropdown-header"></li>
-                <li><a href="#">Charts</a></li>
+                <li><a href="comment.php">Comments</a></li>
                
               </ul>
             </li>	
@@ -69,13 +69,7 @@
 		  
           <ul class="nav navbar-nav navbar-right">
 		  
-          <li class="dropdown">
-			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-folder-open"></span>  Documentation <b class="caret"></b></a>
-            <ul class="dropdown-menu">
-			<li><a href="documentation.php">Documentation Overview</a></li>
-            
-			</ul>
-		  </li>
+         
 		  <li><a  href="#myModal" data-toggle="modal"><span class="glyphicon glyphicon-user"></span> Sign In</a></li>   
 	
 			
@@ -143,26 +137,173 @@
 		</div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
 
-	<div class="container marketing">
+	
+	<div class="container theme-showcase">
+	<div class="page-header col-md-3">	
+	<h1>Search</h1>
+	</div>
+		
+	<div class="page-header col-md-8">
+        <h1>Data</h1>
+      </div>
+	  	
+		
+		
+	
+	
+        
+		<form action="dashboard.php" method="post" role="form" class="form-inline">
+			<div class="form-group">
+			<label for="exampleInputDepartment">Department</label>
+				<input type="text" class="form-control" id="exampleInputDepartment" placeholder="Department" name="department">
+			</div>
+	
+			<div class="form-group">
+			</div>
+	
+			<div class="form-group">
+				<label for="exampleInputAgency">Agency</label>
+				<input type="text" class="form-control" id="exampleInputAgency" placeholder="Agency" name="agency">
+			</div>	
+			
+			<div class="form-group">
+			</div>
+			
+			<div class="form-group">
+				<label for="exampleInputYear">Year</label>
+				<input type="text" class="form-control" id="exampleInputYear" placeholder="Year" name="year">
+			</div>
+  
+			<div class="form-group">
+			</div>
+  
+			<div class="form-group">
+				<label for="exampleInputRegion">Region</label>
+				<input type="text" class="form-control" id="exampleInputRegion" placeholder="Region" name="region">
+				
+			</div>	
+		
+			<div class="form-group">
+				
+			</div>		
+			
+		</form>	
+		<br>
+		<div class="form-group">
+		<button type="submit" class="btn btn-primary">Submit</button>
+		</div>	
+
+		
+		<div class="row marketing col-md-1"></div>
+	
+		<div class="row">
+		
+	<?php 
+
+	function display(){
+	
+		$dept = $_POST['department'];
+		$agency = $_POST['agency'];
+		$year = $_POST['year'];
+		$region = $_POST['region'];
+		
+		$url= 'http://api.kabantayngbayan.ph/saro?app_id=52716e645e13dbe6706ac1ee&agency_code='.$agency.'&department_code='.$dept.'&year='.$year.'&region='.$region.'';$ch = curl_init($url);
+		
+		
+		
+		
+		curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
+		$c = curl_exec($ch);
+	
+//$obj2 = json_decode($c);
+//var d
+//echo $c;
+// ----------------------------------------------------------
+// ----------------------------------------------------------
+//$odata = var_dump(json_decode($c)); //this is the original file
+		$odata = json_decode($c);
+
+
+// The code below display more clear array:
+//print_r($odata);
+
+		// This code below display values
+		foreach($odata as $key => $val){
+		//echo $val;
+		if ($key == "data") {
+		foreach($val as $key2 => $val2){
+
+
+		$year = $val2->year;
+		$dc = $val2->department_code;
+		$ac = $val2->agency_code;
+		$r = $val2->region;
+		$pd = $val2->program_description;
+		$p = $val2->purpose;
+		$a = $val2->amount;
+		
+		
+		$db="sample";
+		$link = mysql_connect('localhost', 'root', '');
+		if (! $link) die(mysql_error());
+		mysql_select_db($db , $link) or die("Couldn't open $db: ".mysql_error());
+		$query = "SELECT * FROM links"; //Write a query
+		$data = mysql_query($query);  //Execute the query
+		
+		
+	
+		echo "<table class='table table-hover table-bordered' id='$data'>";
+		
+		echo "\t<tr class='success'><td><span class='label label-success'>ID</span></td><td><a href='comment.php'>$data</a></td></tr>\n";
+		echo "\t<tr class='active'><td><b>Year</b></td><td>$year</td></tr>\n";
+		echo "\t<tr class='success'><td><b>Department</b></td><td>$dc</td></tr>\n";
+		echo "\t<tr class='active'><td><b>Agency</b></td><td>$ac</td></tr>\n";
+		echo "\t<tr class='success'><td><b>Region</b></td><td>$r</td></tr>\n";
+		echo "\t<tr class='active'><td><b>Program Description</b></td><td>$pd</td></tr>\n";
+		echo "\t<tr class='success'><td><b>Purpose</b></td><td>$p</td></tr>\n";
+		echo "\t<tr class='active'><td><b>Amount</b></td><td>$a</td></tr>";	
+	
+		echo "</table>\n";
+	
+						}
+					}
+
+				}
+			}
+				display();
+		
+		?>
+		
+		<?php
+		
+		?>
+		
+				</form>
+				</div>
+			</div>
+		</div>
+	</div>
+     
+		
+	 <div class="container marketing">
     <hr class="featurette-divider">
 	
       <!-- FOOTER -->
-      <footer>
+    <footer>
         <p class="pull-right"><a href="#"><img src="css/icon/newIcon/up.png">Back to top</a></p>
 		<a href="http://www.facebook.com"><img src="css/icon/newIcon/facebook.png"></a>
 		<a href="https://twitter.com"><img src="css/icon/newIcon/twitter.png"></a>
 		<a href="https://plus.google.com"><img src="css/icon/newIcon/google+.png"></a>
-        <p>&copy; 2013 HULICA &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
-		
-      </footer>
+        <p>&copy; 2013 HULICA &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>		
+    </footer>
 
-    </div><!-- /.container -->
+		</div><!-- /.container -->
 
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="js/jquery-1.10.2.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
 	 <script src="js/holder.js"></script>
   </body>

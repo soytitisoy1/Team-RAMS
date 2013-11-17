@@ -40,11 +40,11 @@
 			<li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-stats"></span> Dashboards <b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li><a href="dashboard.php">Graphs</a></li>
+                 <li><a href="dashboard.php">Data</a></li>
                                
                 <li class="divider"></li>
                 <li class="dropdown-header"></li>
-                <li><a href="dashboard.php">Charts</a></li>
+                <li><a href="comment.php">Comments</a></li>
                
               </ul>
             </li>	
@@ -69,13 +69,7 @@
 		  
           <ul class="nav navbar-nav navbar-right">
 		  
-          <li class="dropdown, active">
-			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-folder-open"></span>  Documentation <b class="caret"></b></a>
-            <ul class="dropdown-menu">
-			<li><a href="#">Documentation Overview</a></li>
-            
-			</ul>
-		  </li>
+         
 		  <li><a  href="#myModal" data-toggle="modal"><span class="glyphicon glyphicon-user"></span> Sign In</a></li>   
 	
 			
@@ -164,7 +158,7 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="js/jquery-1.10.2.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
 	 <script src="js/holder.js"></script>
   </body>
